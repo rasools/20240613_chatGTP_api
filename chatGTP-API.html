@@ -422,17 +422,18 @@
 <h2>Examples</h2>
 <p>A few examples from easy to more tricky:</p>
 <ul>
-<li>Ex1: Batch / structured prompting</li>
-<li>Ex2: Analyzing a directory</li>
-<li>Ex3: GPT Models dialogue</li>
-<li>Ex4: Complete think =&gt; debug =&gt; and test circle (mainly an idea for now)</li>
+<li>Ex1: Batch prompting</li>
+<li>Ex2: Structured prompting</li>
+<li>Ex3: Analyzing a directory</li>
+<li>Ex4: GPT chats dialogue</li>
+<li>Idea: Complete <strong>Think</strong> =&gt; <strong>Debug</strong> =&gt; <strong>Test</strong> circle (mainly an idea for now)</li>
 </ul>
 </section>
 <section id="connecting-to-openai-api" class="slide level2">
 <h2>Connecting to openAI API</h2>
 <ul style="font-size: 0.5em; font-family: Arial, sans-serif; color: #333;">
 <li>
-<strong>Prompt:</strong> paste(“What is the cellular compartment of genes in”, <strong>DE_genes$ID</strong>, “?”)
+<strong>Prompt:</strong> <code>paste("What is the cellular compartment of genes in", DE_genes$ID, "?")</code>
 </li><li>
 <strong>Model:</strong> gpt-3.5-turbo
 </li>
@@ -461,23 +462,36 @@
 <span id="cb1-14"><a href="#cb1-14"></a>  <span class="fu">trimws</span>(<span class="fu">content</span>(response)<span class="sc">$</span>choices[[<span class="dv">1</span>]]<span class="sc">$</span>message<span class="sc">$</span>content)</span>
 <span id="cb1-15"><a href="#cb1-15"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></section>
-<section id="batch-structured-prompting" class="slide level2">
-<h2>Batch / structured prompting</h2>
+<section id="ex1-batch-prompting" class="slide level2">
+<h2>Ex1: Batch prompting</h2>
 <ul style="font-size: 0.5em; font-family: Arial, sans-serif; color: #333;">
 <li>
+Starting with a list of genes
+</li><li>
+Asking chatGPT to find <code>reported cell-lines with a knockout for each of the genes</code>
+</li><li>
+Doing some data wrangling to get the information.
+</li></ul>
+</section>
+<section id="ex2-structured-prompting" class="slide level2">
+<h2>Ex2: Structured prompting</h2>
+<ul style="font-size: 0.5em; font-family: Arial, sans-serif; color: #333;">
+<li>
+We want to make a personal dictionary.
+</li><li>
 Finding the meaning and related information for a new word.
 </li><li>
 Getting a word or phrase as input.
 </li><li>
-First finding the part of speech for the word: verb, noun, adjective, etc.
+First finding the <code>part of speech</code> for the word: <code>verb</code>, <code>noun</code>, <code>adjective</code>, etc.
 </li><li>
 Then creating a structured prompt to get relevant information.
 </li><li>
-And finally doing some data wrangling to get the information.
+And finally data formating.
 </li></ul>
 </section>
-<section id="ex1-batch-structured-prompting" class="slide level2">
-<h2>Ex1: Batch / structured prompting</h2>
+<section id="ex2-structured-prompting-1" class="slide level2">
+<h2>Ex2: Structured prompting</h2>
 <img data-src="images/tables.png">
 <ul style="font-size: 0.3em; font-family: Arial, sans-serif; color: #333;">
 <strong>Verb</strong>: Meaning in English | Meaning in Farsi | Part of Speech | Infinitiv | Presens | Preteritum | Supinum | Presens example sentence | Preteritum example sentence | Supinum example sentence |
@@ -502,8 +516,8 @@ And finally doing some data wrangling to get the information.
 <span id="cb2-16"><a href="#cb2-16"></a>  }</span>
 <span id="cb2-17"><a href="#cb2-17"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></section>
-<section id="ex2-analyzing-a-directory" class="slide level2">
-<h2>Ex2: Analyzing a directory</h2>
+<section id="ex3-analyzing-a-directory" class="slide level2">
+<h2>Ex3: Analyzing a directory</h2>
 <ul style="font-size: 0.5em; font-family: Arial, sans-serif; color: #333;">
 <li>
 GPT4o model can read files.
@@ -512,9 +526,24 @@ But how about giving a directory path and reading the files that we want?
 </li><li>
 Then asking questions considering information in the files.
 </li></ul>
+</section>
+<section id="ex4-gpt-chats-dialogue" class="slide level2">
+<h2>Ex4: GPT chats dialogue</h2>
+<ul style="font-size: 0.5em; font-family: Arial, sans-serif; color: #333;">
+<li>
+GPT4o model can read files.
+</li><li>
+We saw that we can get help to analyze the files in a directory as well.
+</li><li>
+How about loading two chat instances and let them chat with each other?
+</li><li>
+We can provide different context for each of the chats.
+</li><li>
+Also we can set different settings for the chats. For instance different temprature.
+</li></ul>
 
 <img src="images/logo.png" class="slide-logo r-stretch"><div class="footer footer-default">
-<p>Rasool - CMB meeting - June 13th 2024</p>
+<p>Rasool - CMB meeting - June 26th 2024</p>
 </div>
 </section>
     </div>
