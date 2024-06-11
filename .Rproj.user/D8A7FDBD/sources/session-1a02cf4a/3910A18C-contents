@@ -1,0 +1,115 @@
+---
+title: "chatGTP API Example 4: chatGPT models dialogue"
+format: html
+editor: visual
+---
+
+```{r}
+library(httr)
+library(jsonlite)
+
+# Function to call OpenAI API for a ChatGPT instance
+chat_gpt_interaction <- function(messages, api_key, model) {
+  url <- "https://api.openai.com/v1/chat/completions"
+  
+  body <- list(
+    model = model,
+    messages = messages,
+    max_tokens = 150,
+    temperature = 0.7
+  )
+  
+  response <- POST(
+    url,
+    add_headers(
+      `Authorization` = paste("Bearer", api_key),
+      `Content-Type` = "application/json"
+    ),
+    body = toJSON(body, auto_unbox = TRUE),
+    encode = "json"
+  )
+  
+  if (status_code(response) != 200) {
+    stop("API request failed with status code ", status_code(response), ": ", content(response, as = "text", encoding = "UTF-8"))
+  }
+  
+  content <- content(response, as = "text", encoding = "UTF-8")
+  cat("Raw API response content:\n", content, "\n")
+  
+  json_content <- fromJSON(content)
+  
+  # Check and debug the structure of the JSON content
+  if (!is.list(json_content) || !("choices" %in% names(json_content))) {
+    stop("Unexpected response format: ", toString(json_content))
+  }
+  
+  # Print full json_content for better diagnostics
+  print("Full JSON Content:")
+  print(json_content)
+  
+  if (!is.list(json_content$choices) || length(json_content$choices) < 1) {
+    stop("Unexpected 'choices' structure: ", toString(json_content$choices))
+  }
+  
+  # Access message content correctly
+  response_text <- json_content$choices[[1]]$message$content
+  total_tokens <- json_content$usage$total_tokens
+  
+  return(list(response_text = response_text, total_tokens = total_tokens))
+}
+
+# Function to append a message to context with verification of string type
+append_message <- function(context, role, content) {
+  if (!is.character(content)) {
+    stop("Content must be a string")
+  }
+  new_message <- list(role = role, content = content)
+  return(append(context, list(new_message)))
+}
+
+# Configuration
+api_key <- Sys.getenv("OPENAI_API_KEY_NBIS")
+model <- "gpt-3.5-turbo"
+
+# Initial contexts and messages
+context_a <- list(list(role = "system", content = "You are ChatGPT-A."))
+context_b <- list(list(role = "system", content = "You are ChatGPT-B."))
+
+initial_message <- "Let's discuss the types of data available in the project folder."
+context_a <- append_message(context_a, "user", initial_message)
+
+# Number of exchanges
+num_exchanges <- 10
+total_tokens <- 0
+
+# Start the conversation
+cat("Model A says:\n", initial_message, "\n")
+response_a <- chat_gpt_interaction(context_a, api_key, model)
+message_b <- response_a$response_text
+total_tokens <- total_tokens + response_a$total_tokens
+
+# Print the first response for debugging
+print("Model B initial message:")
+print(message_b)
+
+for (i in 2:num_exchanges) {
+  if (i %% 2 == 0) {
+    # Model B responds
+    context_b <- append_message(context_b, "user", message_b)
+    cat("Model B says:\n", message_b, "\n")
+    response_b <- chat_gpt_interaction(context_b, api_key, model)
+    message_a <- response_b$response_text
+    total_tokens <- total_tokens + response_b$total_tokens
+  } else {
+    # Model A responds
+    context_a <- append_message(context_a, "user", message_a)
+    cat("Model A says:\n", message_a, "\n")
+    response_a <- chat_gpt_interaction(context_a, api_key, model)
+    message_b <- response_a$response_text
+    total_tokens <- total_tokens + response_a$total_tokens
+  }
+}
+
+cat("Total tokens used: ", total_tokens, "\n")
+
+```

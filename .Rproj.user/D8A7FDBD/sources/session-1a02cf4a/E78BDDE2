@@ -1,0 +1,28 @@
+{
+    "id": "E78BDDE2",
+    "path": null,
+    "project_path": null,
+    "type": "object_explorer",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1718090918658.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "id": "71fd9c56edef42d89fb9547a9189c2cd",
+        "name": "content",
+        "title": "content",
+        "language": "R",
+        "source_window_id": "",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 0,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1718090918658,
+    "read_only": false,
+    "read_only_alternatives": []
+}
