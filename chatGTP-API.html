@@ -418,34 +418,44 @@
 <p>Learn more: <a href="https://en.wikipedia.org/wiki/API">wikipedia</a></p>
 </div>
 </section>
+<section id="disclaimer" class="slide level2">
+<h2>Disclaimer</h2>
+<ul>
+<li><p>52 Percent of ChatGPT Answers to Programming Questions Are Wrong https://dl.acm.org/doi/pdf/10.1145/3613904.3642596</p></li>
+<li><p>https://chalmers-my.sharepoint.com/:p:/r/personal/haowa_chalmers_se/_layouts/15/Doc2.aspx?action=edit&amp;sourcedoc=%7B0a87ac61-104d-467b-b6c7-b9a04ddf97dd%7D&amp;wdOrigin=TEAMS-MAGLEV.teamsSdk_ns.rwc&amp;wdExp=TEAMS-TREATMENT&amp;wdhostclicktime=1718356155811&amp;web=1</p></li>
+<li><p>We shouldn’t consider chatGTP as a black box. What we can adjust?</p>
+<ul>
+<li>Model</li>
+<li>Model parameters (temperature, max_tokens, top_p etc.)</li>
+<li>Prompt:
+<ul>
+<li>Context</li>
+<li>Instructions (text summarization, reasoning, question answering, role playing, code generation, etc.)</li>
+<li>Input data</li>
+<li>Questions</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
 <section id="examples" class="slide level2">
 <h2>Examples</h2>
 <p>A few examples from easy to more tricky:</p>
 <ul>
 <li>Ex1: Batch prompting</li>
 <li>Ex2: Structured prompting</li>
-<li>Ex3: Analyzing a directory</li>
-<li>Ex4: GPT chats dialogue</li>
+<li>Ex3: A directory as a prompt</li>
+<li>Ex4: chatGTP Self prompting</li>
 <li>Idea: Complete <strong>Think</strong> =&gt; <strong>Debug</strong> =&gt; <strong>Test</strong> circle (mainly an idea for now)</li>
 </ul>
 </section>
 <section id="connecting-to-openai-api" class="slide level2">
 <h2>Connecting to openAI API</h2>
-<ul style="font-size: 0.5em; font-family: Arial, sans-serif; color: #333;">
-<li>
-<strong>Prompt:</strong> <code>paste("What is the cellular compartment of genes in", DE_genes$ID, "?")</code>
-</li><li>
-<strong>Model:</strong> gpt-3.5-turbo
-</li>
-<li>
-<strong>Temperature:</strong> 0-1
-</li>
-<li>
-<strong>API Key:</strong> Johan Viklund provides it for Mimir accounts :)
-</li>
+<ul>
+<li>Prompt: <code>paste("What is the cellular compartment of genes in", DE_genes$ID, "?")</code></li>
+<li>Model: gpt-3.5-turbo</li>
+<li>Temperature: 0-1</li>
+<li>API Key: Johan Viklund provides it for Mimir accounts :)</li>
 </ul>
-<div style="font-size: 0.8em;">
-<p><!-- Adjust the font size here --></p>
 <div class="sourceCode" id="cb1" data-code-line-numbers="1|3|4|8-9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>chatGPT <span class="ot">&lt;-</span> <span class="cf">function</span>(prompt, <span class="at">modelName =</span> <span class="st">"gpt-3.5-turbo"</span>, <span class="at">temperature =</span> <span class="dv">1</span>, apiKey) {</span>
 <span id="cb1-2"><a href="#cb1-2"></a>  response <span class="ot">&lt;-</span> <span class="fu">POST</span>(</span>
 <span id="cb1-3"><a href="#cb1-3"></a>    <span class="at">url =</span> <span class="st">"https://api.openai.com/v1/chat/completions"</span>,</span>
@@ -461,43 +471,32 @@
 <span id="cb1-13"><a href="#cb1-13"></a>  <span class="fu">stop_for_status</span>(response) </span>
 <span id="cb1-14"><a href="#cb1-14"></a>  <span class="fu">trimws</span>(<span class="fu">content</span>(response)<span class="sc">$</span>choices[[<span class="dv">1</span>]]<span class="sc">$</span>message<span class="sc">$</span>content)</span>
 <span id="cb1-15"><a href="#cb1-15"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></section>
+</section>
 <section id="ex1-batch-prompting" class="slide level2">
 <h2>Ex1: Batch prompting</h2>
-<ul style="font-size: 0.5em; font-family: Arial, sans-serif; color: #333;">
-<li>
-Starting with a list of genes
-</li><li>
-Asking chatGPT to find <code>reported cell-lines with a knockout for each of the genes</code>
-</li><li>
-Doing some data wrangling to get the information.
-</li></ul>
+<ul>
+<li>Starting with a list of genes</li>
+<li>Asking chatGPT to find <code>reported cell-lines with a knockout for each of the genes</code></li>
+<li>Doing some data wrangling to get the information</li>
+</ul>
 </section>
 <section id="ex2-structured-prompting" class="slide level2">
 <h2>Ex2: Structured prompting</h2>
-<ul style="font-size: 0.5em; font-family: Arial, sans-serif; color: #333;">
-<li>
-We want to make a personal dictionary.
-</li><li>
-Finding the meaning and related information for a new word.
-</li><li>
-Getting a word or phrase as input.
-</li><li>
-First finding the <code>part of speech</code> for the word: <code>verb</code>, <code>noun</code>, <code>adjective</code>, etc.
-</li><li>
-Then creating a structured prompt to get relevant information.
-</li><li>
-And finally data formating.
-</li></ul>
+<div>
+<ul>
+<li class="fragment">We want to make a personal dictionary.</li>
+<li class="fragment">Finding the meaning and related information for a new word.</li>
+<li class="fragment">Getting a word or phrase as input.</li>
+<li class="fragment">First finding the <code>part of speech</code> for the word: <code>verb</code>, <code>noun</code>, <code>adjective</code>, etc.</li>
+<li class="fragment">Then creating a structured prompt to get relevant information.</li>
+<li class="fragment">And finally data formatting.</li>
+</ul>
+</div>
 </section>
 <section id="ex2-structured-prompting-1" class="slide level2">
 <h2>Ex2: Structured prompting</h2>
-<img data-src="images/tables.png">
-<ul style="font-size: 0.3em; font-family: Arial, sans-serif; color: #333;">
-<strong>Verb</strong>: Meaning in English | Meaning in Farsi | Part of Speech | Infinitiv | Presens | Preteritum | Supinum | Presens example sentence | Preteritum example sentence | Supinum example sentence |
-</ul>
-<div style="font-size: 0.8em;">
 
+<img data-src="images/tables.png" class="r-stretch"><p><strong>Verb</strong>: Meaning in English | Meaning in Farsi | Part of Speech | Infinitiv | Presens | Preteritum | Supinum | Presens example sentence | Preteritum example sentence | Supinum example sentence |</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>createPrompt <span class="ot">&lt;-</span> <span class="cf">function</span>(input, pos, consolidatedtxt) {</span>
 <span id="cb2-2"><a href="#cb2-2"></a>  path_template <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"temp_tables/%s.txt"</span>, <span class="fu">tolower</span>(pos))</span>
 <span id="cb2-3"><a href="#cb2-3"></a>  </span>
@@ -515,32 +514,27 @@ And finally data formating.
 <span id="cb2-15"><a href="#cb2-15"></a>    <span class="fu">paste</span>(<span class="st">"No template found for"</span>, pos)</span>
 <span id="cb2-16"><a href="#cb2-16"></a>  }</span>
 <span id="cb2-17"><a href="#cb2-17"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></section>
+</section>
 <section id="ex3-analyzing-a-directory" class="slide level2">
 <h2>Ex3: Analyzing a directory</h2>
-<ul style="font-size: 0.5em; font-family: Arial, sans-serif; color: #333;">
-<li>
-GPT4o model can read files.
-</li><li>
-But how about giving a directory path and reading the files that we want?
-</li><li>
-Then asking questions considering information in the files.
-</li></ul>
+<ul>
+<li>GPT4o model can read files.</li>
+<li>But how about giving a directory path and reading the files that we want?</li>
+<li>Then asking questions considering information in the files.</li>
+</ul>
 </section>
 <section id="ex4-gpt-chats-dialogue" class="slide level2">
 <h2>Ex4: GPT chats dialogue</h2>
-<ul style="font-size: 0.5em; font-family: Arial, sans-serif; color: #333;">
-<li>
-GPT4o model can read files.
-</li><li>
-We saw that we can get help to analyze the files in a directory as well.
-</li><li>
-How about loading two chat instances and let them chat with each other?
-</li><li>
-We can provide different context for each of the chats.
-</li><li>
-Also we can set different settings for the chats. For instance different temprature.
-</li></ul>
+<ul>
+<li>GPT4o model can read files.</li>
+<li>We saw that we can get help to analyze the files in a directory as well.</li>
+<li>How about loading two chat instances and let them chat with each other?</li>
+<li>We can provide different context for each of the chats.</li>
+<li>Also we can set different settings for the chats. For instance different temperature.</li>
+</ul>
+</section>
+<section id="idea-how-can-we-trick-chatgtp-to-complete-think-debug-test-circle" class="slide level2">
+<h2>Idea: How can we trick chatGTP to complete <code>Think =&gt; Debug =&gt; Test</code> circle?</h2>
 
 <img src="images/logo.png" class="slide-logo r-stretch"><div class="footer footer-default">
 <p>Rasool - CMB meeting - June 26th 2024</p>

@@ -138,14 +138,14 @@ folder_structure <- get_folder_structure(dir_path, read_files = FALSE)
 folder_structure_string <- folder_structure_to_string(folder_structure)
 
 # Initialize the context for ChatGPT instances based on folder structure
-context_a <- list(list(role = "system", content = "You are a researcher. Thinking about a project for analyzing the folder structure by asking relevant questions."))
+context_a <- list(list(role = "system", content = "You are a researcher. Thinking about the data in a project folder and should relevant questions."))
 context_a <- append_message(context_a, "user", folder_structure_string)
 
-context_b <- list(list(role = "system", content = "You are an insightful analyst. Answer questions and provide useful insights about the folder content."))
+context_b <- list(list(role = "system", content = "You are an insightful analyst. Answer questions and provide useful information about the folder content."))
 
 # Set temperatures (optional)
-temperature_a <- 0.7
-temperature_b <- 0.3
+temperature_a <- 0.1
+temperature_b <- 0.7
 
 # Set the number of interactions and initiate conversation
 num_interactions <- 5

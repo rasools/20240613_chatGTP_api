@@ -1,0 +1,16 @@
+
+/* Customize the font size for all slides */
+.reveal section {
+  font-size: 24px; /* Adjust this value as needed */
+}
+
+/* Customize the font size for specific elements */
+.reveal h1 {
+  font-size: 32px; /* Adjust this value for first-level headers */
+}
+
+.reveal h2 {
+  font-size: 28px; /* Adjust this value for second-level headers */
+}
+
+
